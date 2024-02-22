@@ -1,0 +1,45 @@
+<mxfile host="Electron" modified="2024-02-21T17:40:17.860Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="bRGp8oleCMZ4g2OhrKvl" version="23.1.5" type="device">
+  <diagram name="Page-1" id="Cjdlr_f1qYEY1D2Rhppa">
+    <mxGraphModel dx="1140" dy="763" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-3" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="200" y="40" width="440" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="DskKxBYm9OC-XzK_Npu1-3">
+          <mxGeometry width="440" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-2" value="Home Raspberry Pi" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="DskKxBYm9OC-XzK_Npu1-3">
+          <mxGeometry width="120" height="21.43" as="geometry" />
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="DskKxBYm9OC-XzK_Npu1-3" source="DskKxBYm9OC-XzK_Npu1-4" target="DskKxBYm9OC-XzK_Npu1-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-4" value="Client&lt;br&gt;Port: 5000" style="html=1;whiteSpace=wrap;" vertex="1" parent="DskKxBYm9OC-XzK_Npu1-3">
+          <mxGeometry x="165" y="60" width="110" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="DskKxBYm9OC-XzK_Npu1-3" source="DskKxBYm9OC-XzK_Npu1-5" target="DskKxBYm9OC-XzK_Npu1-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-5" value="NGINX&lt;br&gt;Reverse Proxy&lt;br&gt;Port: 443 / TLS" style="html=1;whiteSpace=wrap;" vertex="1" parent="DskKxBYm9OC-XzK_Npu1-3">
+          <mxGeometry x="10" y="60" width="110" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-13" value="Server&lt;br&gt;Port: 6000" style="html=1;whiteSpace=wrap;" vertex="1" parent="DskKxBYm9OC-XzK_Npu1-3">
+          <mxGeometry x="320" y="60" width="110" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="DskKxBYm9OC-XzK_Npu1-7" target="DskKxBYm9OC-XzK_Npu1-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-12" value="https://www.timowenz.com" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="DskKxBYm9OC-XzK_Npu1-11">
+          <mxGeometry x="-0.3906" y="-2" relative="1" as="geometry">
+            <mxPoint x="31" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DskKxBYm9OC-XzK_Npu1-7" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="110" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
