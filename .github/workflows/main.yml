@@ -4,18 +4,25 @@ jobs:
   get_ip:
     name: Get IP
     runs-on: ubuntu-latest
+    outputs:
+      id: ip_address
+
     steps:
       - name: Print IP
-        run: nslookup www.timowenz.com | grep "Address:" | awk 'NR==2 {print $NF}'
+        run: |
+          echo "::set-output name=ip_address::$(nslookup www.timowenz.com | grep "Address:" | awk 'NR==2 {print $NF}')"
+        id: set_ip
+
   build:
     name: Build
     runs-on: ubuntu-latest
+    needs: get_ip
     steps:
       - uses: actions/checkout@v4
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ needs.get_ip.outputs.set_ip }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
