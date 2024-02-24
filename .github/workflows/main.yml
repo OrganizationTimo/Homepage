@@ -5,7 +5,7 @@ jobs:
     name: Push files to remote server
     runs-on: ubuntu-latest
     steps:
-      - run: echo "IP_ADDRESS=$(nslookup www.timowenz.com | grep 'Address:' | awk 'NR==2 {print $NF}')" >> $GITHUB_ENV
+      - run: echo "IP_ADDRESS=$(nslookup ${{secrets.HOST}} | grep 'Address:' | awk 'NR==2 {print $NF}')" >> $GITHUB_ENV
       - uses: actions/checkout@v4
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.7
