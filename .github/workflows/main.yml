@@ -1,4 +1,3 @@
-name: SCP files to remote server
 on: [push]
 jobs:
   build:
@@ -17,12 +16,13 @@ jobs:
           source: "app.py"
           target: "~/Desktop/website"
 
-  another_job:
+  restart_service:
+    name: Restart systemctl service
     runs-on: ubuntu-latest
     needs: build
     steps:
       - run: echo "IP_ADDRESS=$(nslookup ${{secrets.HOST}} | grep 'Address:' | awk 'NR==2 {print $NF}')" >> $GITHUB_ENV
-      - name: executing remote ssh commands using password
+      - name: executing remote ssh commands using key
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: "${{ env.IP_ADDRESS }}"
