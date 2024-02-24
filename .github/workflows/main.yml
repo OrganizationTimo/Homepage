@@ -20,6 +20,7 @@ jobs:
   another_job:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "IP_ADDRESS=$(nslookup ${{secrets.HOST}} | grep 'Address:' | awk 'NR==2 {print $NF}')" >> $GITHUB_ENV
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.0.3
         with:
