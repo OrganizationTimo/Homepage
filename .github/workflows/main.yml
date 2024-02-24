@@ -14,4 +14,4 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         source: "README.md"
-        target: "~/Desktop/"
+        target: "~/Desktop"
