@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "Hello GitHub Actions!"
+    return "Hello another GitHub Actions!"
 
 
 if __name__ == "__main__":
