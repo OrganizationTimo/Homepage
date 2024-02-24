@@ -1,8 +1,8 @@
-name: scp files
+name: SCP files to remote server
 on: [push]
 jobs:
   build:
-    name: Build
+    name: Push files to remote server
     runs-on: ubuntu-latest
     steps:
       - run: echo "IP_ADDRESS=$(nslookup www.timowenz.com | grep 'Address:' | awk 'NR==2 {print $NF}')" >> $GITHUB_ENV
