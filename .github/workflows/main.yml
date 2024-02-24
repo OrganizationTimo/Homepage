@@ -1,17 +1,26 @@
 name: scp files
 on: [push]
 jobs:
+  get_ip:
+    name: Get IP
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get IP
+        run: |
+          PUBLIC_IP=$(curl -s https://httpbin.org/ip | grep -o '"origin": "[^"]*' | awk -F'"' '{print $4}')
+          echo "Router IP Address: $PUBLIC_IP"
+
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
-        port: ${{ secrets.PORT }}
-        source: "README.md"
-        target: "~/Desktop"
+      - uses: actions/checkout@v4
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          source: "README.md"
+          target: "~/Desktop"
