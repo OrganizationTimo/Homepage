@@ -5,12 +5,12 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - run: echo "::set-output name=ip_address::$(nslookup www.timowenz.com | grep "Address:" | awk 'NR==2 {print $NF}')"
+      - run: echo "IP_ADDRESS=$(nslookup www.timowenz.com | grep 'Address:' | awk 'NR==2 {print $NF}')" >> $GITHUB_ENV
       - uses: actions/checkout@v4
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ needs.save_ip.outputs.ip_address }}"
+          host: "${{ env.IP_ADDRESS }}"
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
