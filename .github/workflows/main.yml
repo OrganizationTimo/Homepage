@@ -16,3 +16,15 @@ jobs:
           port: ${{ secrets.PORT }}
           source: "app.py"
           target: "~/Desktop/website"
+
+  another_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: "${{ env.IP_ADDRESS }}"
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
