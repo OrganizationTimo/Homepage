@@ -26,6 +26,6 @@ jobs:
         with:
           host: "${{ env.IP_ADDRESS }}"
           username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: whoami
