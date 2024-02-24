@@ -5,11 +5,8 @@ jobs:
     name: Get IP
     runs-on: ubuntu-latest
     steps:
-      - name: Get IP
-        run: |
-          PUBLIC_IP=$(curl -s https://httpbin.org/ip | grep -o '"origin": "[^"]*' | awk -F'"' '{print $4}')
-          echo "Router IP Address: $PUBLIC_IP"
-
+      - name: Print IP
+        run: nslookup www.timowenz.com | grep "Address:" | awk 'NR==2 {print $NF}'
   build:
     name: Build
     runs-on: ubuntu-latest
