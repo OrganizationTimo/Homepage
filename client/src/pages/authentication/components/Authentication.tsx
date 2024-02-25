@@ -1,9 +1,17 @@
-import { HTMLInputTypeAttribute, MutableRefObject, ReactElement } from "react";
+import {
+  HTMLInputTypeAttribute,
+  MutableRefObject,
+  ReactElement,
+  useState,
+} from "react";
 import { IconType } from "react-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { apiBaseUrl } from "../../../utils/baseUrl";
+import axios, { AxiosError } from "axios";
 
 type inputFieldsType = {
   ref: MutableRefObject<string | null>;
+  payloadKey: string;
   icon: ReactElement<IconType>;
   placeholder: string;
   type: HTMLInputTypeAttribute | undefined;
@@ -14,6 +22,7 @@ type AuthenticationProps = {
   inputFields: inputFieldsType[];
   buttonName: string;
   hyperLinkText: { text: string; link: string }[];
+  requestUrl: string;
 };
 
 export default function Authentication({
@@ -21,10 +30,51 @@ export default function Authentication({
   inputFields,
   buttonName,
   hyperLinkText,
+  requestUrl,
 }: AuthenticationProps) {
+  const [error, setError] = useState<{
+    errorMessage?: string;
+    errorStatus: boolean;
+  }>({ errorMessage: "", errorStatus: false });
+
+  const navigation = useNavigate();
+
+  async function sendRequest(e: { preventDefault: () => void }) {
+    e.preventDefault();
+
+    type payloadType = {
+      [key: string]: string | null;
+    };
+    const payload: payloadType = {};
+
+    inputFields.forEach((inputField) => {
+      payload[inputField.payloadKey] = inputField.ref.current;
+    });
+
+    console.log(payload);
+
+    try {
+      const response = await axios.post(apiBaseUrl + requestUrl, payload);
+      console.log(response.data);
+
+      navigation("/");
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err);
+        setError({
+          errorMessage: err?.response?.data.message,
+          errorStatus: true,
+        });
+      }
+    }
+  }
+
   return (
     <div className="w-full h-screen bg-fourth flex justify-center items-center">
-      <form className="bg-primary w-96 min-h-min py-10 rounded-md">
+      <form
+        className="bg-primary w-96 min-h-min py-10 rounded-md"
+        onSubmit={sendRequest}
+      >
         <h1 className="text-center text-4xl text-white font-bold px-10 h-1/4">
           {pageHeader}
         </h1>
@@ -43,22 +93,29 @@ export default function Authentication({
                   placeholder={inputField.placeholder}
                   type={inputField.type}
                   onChange={(e) => {
+                    setError({ errorStatus: false });
                     inputField.ref.current = e.target.value;
                   }}
                 />
               </div>
             );
           })}
-          <button className="w-3/4 h-10 bg-third text-white font-bold text-lg rounded-md mt-2.5">
+          <button
+            className="w-3/4 h-10 bg-third text-white font-bold text-lg rounded-md mt-2.5 hover:bg-opacity-75 transition-colors"
+            type="submit"
+          >
             {buttonName}
           </button>
+          {error?.errorStatus && (
+            <p className="text-red-500">{error?.errorMessage}</p>
+          )}
           <div className="flex gap-1.5 flex-col items-center">
             {hyperLinkText?.map((link, index) => {
               return (
                 <Link
                   key={index}
                   to={link.link}
-                  className="text-white underline-offset-4 underline"
+                  className="text-white underline-offset-4 underline hover:text-gray-300 hover:bg-opacity-75 transition-colors"
                 >
                   {link.text}
                 </Link>

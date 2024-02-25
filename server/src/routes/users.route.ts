@@ -1,7 +1,15 @@
 import express from "express";
-import { getUsers } from "../controllers/users.controller";
+import {
+  loginUser,
+  protectedRoute,
+  registerUser,
+} from "../controllers/users.controller";
+import { verifyToken } from "../middlewares/jwt.middleware";
 
 const router = express.Router();
-router.get("/", getUsers);
+
+router.post("/api/user/register", registerUser);
+router.post("/api/user/login", loginUser);
+router.get("/api/user/protected", verifyToken, protectedRoute);
 
 export default router;

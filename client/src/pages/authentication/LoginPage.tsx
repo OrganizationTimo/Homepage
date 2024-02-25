@@ -1,43 +1,31 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Authentication from "./components/Authentication";
-import { MdAlternateEmail } from "react-icons/md";
 import { MdOutlinePassword } from "react-icons/md";
-import axios from "axios";
-
+import { CiUser } from "react-icons/ci";
 export default function LoginPage() {
-  const emailRef = useRef<string | null>(null);
+  const usernameRef = useRef<string | null>(null);
   const passwordRef = useRef<string | null>(null);
-
-  async function fetchData() {
-    try {
-      const response = await axios.get("https://api.timowenz.com/");
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <Authentication
       pageHeader="Login to your Account!"
       inputFields={[
         {
-          ref: emailRef,
-          icon: <MdAlternateEmail />,
-          placeholder: "Enter e-mail address",
-          type: "email",
+          ref: usernameRef,
+          payloadKey: "username",
+          icon: <CiUser />,
+          placeholder: "Enter username",
+          type: "text",
         },
         {
           ref: passwordRef,
+          payloadKey: "password",
           icon: <MdOutlinePassword />,
           placeholder: "Enter password",
           type: "password",
         },
       ]}
+      requestUrl="/api/user/login"
       buttonName={"Login"}
       hyperLinkText={[
         { text: "Forgot credentials?", link: "" },
