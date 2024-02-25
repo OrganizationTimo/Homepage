@@ -7,11 +7,6 @@ async function registerUser(req: Request, res: Response, next: NextFunction) {
   try {
     const data = req.body;
 
-    const userExists = await userModel.findOne({ username: data.username });
-
-    if (userExists)
-      return res.status(400).json({ message: "Username already exists." });
-
     if (data.password !== data.confirmPassword)
       return res.status(400).json({ message: "Passwords do not match." });
 
