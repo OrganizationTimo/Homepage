@@ -19,10 +19,10 @@ app.use(json());
 app.use(log);
 app.use(router);
 
-app.listen(process.env.PORT || 3000, async () => {
+app.listen(process.env.PORT || 3000, () => {
   try {
     if (process.env.MONGO_URI)
-      await mongoose.connect(process.env.MONGO_URI, { dbName: "database" });
+      mongoose.connect(process.env.MONGO_URI, { dbName: "database" });
     console.log("MONGO_URI:", process.env.MONGO_URI);
     console.log("Successfully connected to MongoDB.");
     console.log(`Server listening on port: ${process.env.PORT}.`);
