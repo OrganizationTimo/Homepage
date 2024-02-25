@@ -21,9 +21,9 @@ app.use(router);
 
 app.listen(process.env.PORT || 3000, () => {
   try {
+    console.log("MONGO_URI:", process.env.MONGO_URI);
     if (process.env.MONGO_URI)
       mongoose.connect(process.env.MONGO_URI, { dbName: "database" });
-    console.log("MONGO_URI:", process.env.MONGO_URI);
     console.log("Successfully connected to MongoDB.");
     console.log(`Server listening on port: ${process.env.PORT}.`);
   } catch (err) {
