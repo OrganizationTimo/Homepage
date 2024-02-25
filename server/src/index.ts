@@ -21,7 +21,7 @@ app.use(router);
 
 app.listen(process.env.PORT || 3000, async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:28080/database");
+    await mongoose.connect("mongodb://localhost:28080/database");
     console.log("Successfully connected to MongoDB.");
     console.log(`Server listening on port: ${process.env.PORT}.`);
   } catch (err) {
