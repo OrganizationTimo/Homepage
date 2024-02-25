@@ -14,6 +14,7 @@ app.use(
     origin: "*",
   })
 );
+app.options("*", cors());
 app.use(json());
 app.use(log);
 app.use(router);
