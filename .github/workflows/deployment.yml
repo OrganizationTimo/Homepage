@@ -11,8 +11,10 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Build and push
         run: |
-          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/homepage:client .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/homepage:client
+          docker buildx create --use
+          docker buildx inspect --bootstrap
+          docker buildx build --platform linux/amd64,linux/arm64 -t timowenz/client:latest -f Dockerfile .
+          docker push timowenz/client:latest
 
   restart_service:
     name: Restart systemctl service
