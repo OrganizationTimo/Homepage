@@ -9,7 +9,7 @@ export default function LoginPage() {
 
   return (
     <Authentication
-      pageHeader="Login to your Account!"
+      pageHeader="Running GitHub Actions with Docker!"
       inputFields={[
         {
           ref: emailRef,
