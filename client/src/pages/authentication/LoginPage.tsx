@@ -10,7 +10,7 @@ export default function LoginPage() {
 
   async function fetchData() {
     try {
-      const response = await axios.get("http://192.168.178.163:3000");
+      const response = await axios.get("http://host.docker.internal:3000");
       console.log(response);
     } catch (err) {
       console.log(err);
