@@ -1,6 +1,7 @@
 on: push
 jobs:
   build-and-push:
+    name: "Build and push Docker images to DockerHub"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,6 +19,7 @@ jobs:
         with:
           context: ./client
           push: true
+          platforms: linux/arm64
           tags: timowenz/homepage:client
 
       - name: Build and push server image
@@ -25,6 +27,7 @@ jobs:
         with:
           context: ./server
           push: true
+          platforms: linux/arm64
           tags: timowenz/homepage:backend
 
       - name: Build and push database image
@@ -32,11 +35,13 @@ jobs:
         with:
           context: ./docker/mongodb/
           push: true
+          platforms: linux/arm64
           tags: timowenz/homepage:database
 
-  restart_service:
-    name: Restart systemctl service
+  run-container:
+    name: Run containers on remote server
     runs-on: ubuntu-latest
+    needs: build-and-push
     steps:
       - run: echo "IP_ADDRESS=$(nslookup ${{secrets.HOST}} | grep 'Address:' | awk 'NR==2 {print $NF}')" >> $GITHUB_ENV
       - name: executing remote ssh commands using key
@@ -46,4 +51,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: sudo systemctl restart start_app.service
+          script: |
