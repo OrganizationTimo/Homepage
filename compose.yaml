@@ -1,0 +1,22 @@
+version: "3"
+services:
+  backend:
+    build: ./server
+    ports:
+      - "3000:3000"
+    command: npm run dev
+    restart: on-failure
+
+  client:
+    build: ./client
+    ports:
+      - "5173:5173"
+    command: npm start
+    restart: on-failure
+  database:
+    build: ./docker/mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/mongodb/volume:/data/db
+    restart: on-failure

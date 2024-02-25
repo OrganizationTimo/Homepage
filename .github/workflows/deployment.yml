@@ -1,0 +1,69 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  client:
+    name: "Build and push Docker images to DockerHub (CLIENT)"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push client image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./client
+          push: true
+          platforms: linux/arm64
+          tags: timowenz/homepage:client
+
+  server:
+    name: "Build and push Docker images to DockerHub (SERVER)"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push server image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./server
+          push: true
+          platforms: linux/arm64
+          tags: timowenz/homepage:server
+
+  run-container:
+    name: Run containers on remote server
+    runs-on: ubuntu-latest
+    needs: [client, server]
+    steps:
+      - run: echo "IP_ADDRESS=$(nslookup ${{secrets.HOST}} | grep 'Address:' | awk 'NR==2 {print $NF}')" >> $GITHUB_ENV
+      - name: executing remote ssh commands using key
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: "${{ env.IP_ADDRESS }}"
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            sudo docker stop $(sudo docker ps -q)
+            sudo docker rmi $(sudo docker images -q) -f
+            sudo docker pull timowenz/homepage:client
+            sudo docker pull timowenz/homepage:server
+            sudo docker run -d -p 5173:5173 timowenz/homepage:client
+            sudo docker run -d -p 3000:3000 timowenz/homepage:server
