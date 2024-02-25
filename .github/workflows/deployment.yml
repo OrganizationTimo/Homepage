@@ -59,11 +59,11 @@ jobs:
           host: "${{ env.IP_ADDRESS }}"
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
             sudo docker stop $(sudo docker ps -q)
             sudo docker rmi $(sudo docker images -q) -f
             sudo docker pull timowenz/homepage:client
             sudo docker pull timowenz/homepage:server
             sudo docker run -d -p 5173:5173 timowenz/homepage:client
-            sudo docker run -d -p 3000:3000 timowenz/homepage:server
+            sudo docker run -d -e PORT=${{env.PORT}} -e MONGO_URI=${{env.MONGO_URI}} -e JWT_SECRET=${{env.JWT_SECRET}} -p 3000:3000 timowenz/homepage:server
