@@ -1,11 +1,25 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Authentication from "./components/Authentication";
 import { MdAlternateEmail } from "react-icons/md";
 import { MdOutlinePassword } from "react-icons/md";
+import axios from "axios";
 
 export default function LoginPage() {
   const emailRef = useRef<string | null>(null);
   const passwordRef = useRef<string | null>(null);
+
+  async function fetchData() {
+    try {
+      const response = await axios.get("http://localhost:3000");
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Authentication
