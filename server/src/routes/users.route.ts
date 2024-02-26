@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.post("/api/user/register", registerUser);
 router.post("/api/user/login", loginUser);
-router.get("/api/user/protected", verifyToken, protectedRoute);
+router.get("/api/validate-token", verifyToken, protectedRoute);
 
 export default router;

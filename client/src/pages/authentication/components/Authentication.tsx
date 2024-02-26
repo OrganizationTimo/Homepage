@@ -56,6 +56,7 @@ export default function Authentication({
     try {
       const response = await axios.post(apiBaseUrl + requestUrl, payload);
       console.log(response.data);
+      localStorage.setItem("token", response.data.token);
 
       navigation("/");
     } catch (err) {

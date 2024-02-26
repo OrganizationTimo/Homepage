@@ -45,7 +45,7 @@ export default function RegisterPage() {
       ]}
       requestUrl="/api/user/register"
       buttonName={"Register"}
-      hyperLinkText={[{ text: "Already have an account", link: "/login" }]}
+      hyperLinkText={[{ text: "Already have an account?", link: "/login" }]}
     />
   );
 }

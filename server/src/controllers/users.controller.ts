@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import userModel from "../models/user.model";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError } from "jsonwebtoken";
 import { MongoServerError } from "mongodb";
 
 async function registerUser(req: Request, res: Response, next: NextFunction) {
@@ -62,7 +62,7 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
 
     if (process.env.JWT_SECRET) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
+        expiresIn: "1m",
       });
 
       return res.json({ token });
@@ -75,7 +75,7 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
 
 async function protectedRoute(req: Request, res: Response, next: NextFunction) {
   try {
-    res.status(200).json({ message: "You are authorized." });
+    return res.status(200).json({ message: "You are authorized." });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ message: "Failed to login." });

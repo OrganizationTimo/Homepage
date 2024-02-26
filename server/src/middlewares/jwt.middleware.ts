@@ -19,6 +19,9 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
           .status(401)
           .json({ message: "Token expired. " + err.expiredAt });
       }
+      if (err instanceof jwt.JsonWebTokenError) {
+        return res.status(401).json({ message: "Invalid token." });
+      }
     }
   } else {
     return res
