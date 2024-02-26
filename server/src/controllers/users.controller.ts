@@ -2,10 +2,25 @@ import { Request, Response, NextFunction } from "express";
 import userModel from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { MongoServerError } from "mongodb";
 
 async function registerUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const data = req.body;
+    type requestType = {
+      username: string;
+      email: string;
+      password: string;
+      confirmPassword: string;
+    };
+
+    const data: requestType = req.body;
+
+    const findExistingUser = await userModel.findOne({
+      username: data.username.toLowerCase(),
+    });
+
+    if (findExistingUser)
+      return res.status(400).json({ message: "User does already exists!" });
 
     if (data.password !== data.confirmPassword)
       return res.status(400).json({ message: "Passwords do not match." });
@@ -14,8 +29,7 @@ async function registerUser(req: Request, res: Response, next: NextFunction) {
     console.log(hashedPassword);
 
     const user = new userModel({
-      displayName: data.displayName,
-      username: data.username,
+      username: data.username.toLowerCase(),
       email: data.email,
       password: hashedPassword,
     });
@@ -30,9 +44,14 @@ async function registerUser(req: Request, res: Response, next: NextFunction) {
 
 async function loginUser(req: Request, res: Response, next: NextFunction) {
   try {
-    const { username, password } = req.body;
+    type requestType = {
+      username: string;
+      password: string;
+    };
 
-    const user = await userModel.findOne({ username });
+    const { username, password }: requestType = req.body;
+
+    const user = await userModel.findOne({ username: username.toLowerCase() });
 
     if (!user) return res.status(400).json({ message: "User does not exist." });
 
