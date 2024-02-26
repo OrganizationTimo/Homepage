@@ -1,15 +1,19 @@
 import axios from "axios";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { apiBaseUrl } from "./utils/baseUrl";
 import { Navigate } from "react-router-dom";
 
 type ProtectedRouteProps = {
   children: ReactNode;
+  isAuthenticated: boolean;
+  setIsAuthenticated: (value: boolean) => void;
 };
 
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
+export default function ProtectedRoute({
+  children,
+  isAuthenticated,
+  setIsAuthenticated,
+}: ProtectedRouteProps) {
   useEffect(() => {
     async function validateToken() {
       try {
@@ -25,7 +29,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       }
     }
     validateToken();
-  }, []);
+  }, [setIsAuthenticated]);
 
   return isAuthenticated ? children : <Navigate to={"/login"} />;
 }
