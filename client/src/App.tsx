@@ -10,7 +10,8 @@ export default function App() {
    * window.matchMedia('(prefers-color-scheme: dark)').matches -> true or false
    */
 
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  console.log(isAuthenticated);
 
   return (
     <BrowserRouter>

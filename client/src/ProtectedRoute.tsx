@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 
 type ProtectedRouteProps = {
   children: ReactNode;
-  isAuthenticated: boolean;
+  isAuthenticated: boolean | undefined;
   setIsAuthenticated: (value: boolean) => void;
 };
 
@@ -15,6 +15,10 @@ export default function ProtectedRoute({
   setIsAuthenticated,
 }: ProtectedRouteProps) {
   useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setIsAuthenticated(true);
+    }
+
     async function validateToken() {
       try {
         await axios.get(apiBaseUrl + "/api/validate-token", {
