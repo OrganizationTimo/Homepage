@@ -73,7 +73,7 @@ export default function Authentication({
   return (
     <div className="w-full h-screen bg-fourth flex justify-center items-center dark:bg-primary">
       <form
-        className="bg-primary w-96 min-h-min py-10 rounded-md dark:bg-fourth"
+        className="bg-primary min-w-80 max-w-96 min-h-min py-10 mx-10 rounded-md dark:bg-fourth"
         onSubmit={sendRequest}
       >
         <h1 className="text-center text-4xl text-white font-bold px-10 h-1/4 dark:text-black">
