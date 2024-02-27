@@ -79,7 +79,7 @@ export default function Authentication({
         <h1 className="text-center text-4xl text-white font-bold px-10 h-1/4 dark:text-black">
           {pageHeader}
         </h1>
-        <div className="w-full h-3/4 bg-primary rounded-md flex flex-col justify-start items-center gap-5 px-10 pt-10 dark:bg-fourth">
+        <div className="w-full h-3/4 bg-primary rounded-md flex flex-col justify-start items-center gap-5 px-5 pt-10 dark:bg-fourth">
           {inputFields.map((inputField, index) => {
             return (
               <div
