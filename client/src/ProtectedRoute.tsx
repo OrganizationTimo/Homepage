@@ -1,24 +1,17 @@
 import axios from "axios";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 import { apiBaseUrl } from "./utils/baseUrl";
 import { Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 
 type ProtectedRouteProps = {
   children: ReactNode;
-  isAuthenticated: boolean | undefined;
-  setIsAuthenticated: (value: boolean) => void;
 };
 
-export default function ProtectedRoute({
-  children,
-  isAuthenticated,
-  setIsAuthenticated,
-}: ProtectedRouteProps) {
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setIsAuthenticated(true);
-    }
+export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+  const auth = useContext(AuthProvider);
 
+  useEffect(() => {
     async function validateToken() {
       try {
         await axios.get(apiBaseUrl + "/api/validate-token", {
@@ -27,13 +20,13 @@ export default function ProtectedRoute({
           },
         });
 
-        setIsAuthenticated(true);
+        auth.setIsAuthenticated(true);
       } catch (err) {
-        setIsAuthenticated(false);
+        auth.setIsAuthenticated(false);
       }
     }
     validateToken();
-  }, [setIsAuthenticated]);
+  }, [auth]);
 
-  return isAuthenticated ? children : <Navigate to={"/login"} />;
+  return auth.isAuthenticated ? children : <Navigate to={"/login"} />;
 }
