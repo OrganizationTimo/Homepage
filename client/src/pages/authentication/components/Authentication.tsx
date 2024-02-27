@@ -71,15 +71,15 @@ export default function Authentication({
   }
 
   return (
-    <div className="w-full h-screen bg-fourth flex justify-center items-center">
+    <div className="w-full h-screen bg-fourth flex justify-center items-center dark:bg-primary">
       <form
-        className="bg-primary w-96 min-h-min py-10 rounded-md"
+        className="bg-primary w-96 min-h-min py-10 rounded-md dark:bg-fourth"
         onSubmit={sendRequest}
       >
-        <h1 className="text-center text-4xl text-white font-bold px-10 h-1/4">
+        <h1 className="text-center text-4xl text-white font-bold px-10 h-1/4 dark:text-black">
           {pageHeader}
         </h1>
-        <div className="w-full h-3/4 bg-primary rounded-md flex flex-col justify-start items-center gap-5 px-10 pt-10">
+        <div className="w-full h-3/4 bg-primary rounded-md flex flex-col justify-start items-center gap-5 px-10 pt-10 dark:bg-fourth">
           {inputFields.map((inputField, index) => {
             return (
               <div
@@ -116,7 +116,7 @@ export default function Authentication({
                 <Link
                   key={index}
                   to={link.link}
-                  className="text-white underline-offset-4 underline hover:text-gray-300 hover:bg-opacity-75 transition-colors"
+                  className="text-white underline-offset-4 underline hover:text-gray-300 hover:bg-opacity-75 transition-colors dark:text-black dark:hover:text-gray-400"
                 >
                   {link.text}
                 </Link>

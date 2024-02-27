@@ -2,14 +2,14 @@ import axios from "axios";
 import { ReactNode, useContext, useEffect } from "react";
 import { apiBaseUrl } from "./utils/baseUrl";
 import { Navigate } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthContext } from "./context/AuthContext";
 
 type ProtectedRouteProps = {
   children: ReactNode;
 };
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const auth = useContext(AuthProvider);
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
     async function validateToken() {

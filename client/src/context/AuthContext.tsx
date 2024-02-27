@@ -1,10 +1,9 @@
 import { Dispatch, SetStateAction, createContext } from "react";
 
-export const AuthProvider = createContext<{
-  isAuthenticated: boolean;
+export const AuthContext = createContext<{
+  isAuthenticated: boolean | null;
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
 }>({
-  isAuthenticated: false,
+  isAuthenticated: null,
   setIsAuthenticated: () => {},
 });
-createContext;
