@@ -95,7 +95,7 @@ export default function Authentication({
                 <div className="text-white">{inputField.icon}</div>
 
                 <input
-                  className="h-full rounded-md bg-secondary outline-none text-white"
+                  className="h-full rounded-md bg-secondary outline-none text-white text-center"
                   defaultValue={inputField.ref.current?.toString()}
                   placeholder={inputField.placeholder}
                   type={inputField.type}
