@@ -8,6 +8,7 @@ import { IconType } from "react-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { apiBaseUrl } from "../../../utils/baseUrl";
 import axios, { AxiosError } from "axios";
+import Spinner from "../../../components/Spinner";
 
 type inputFieldsType = {
   ref: MutableRefObject<string | null>;
@@ -36,38 +37,43 @@ export default function Authentication({
     errorMessage?: string;
     errorStatus: boolean;
   }>({ errorMessage: "", errorStatus: false });
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigate();
 
   async function sendRequest(e: { preventDefault: () => void }) {
     e.preventDefault();
 
-    type payloadType = {
-      [key: string]: string | null;
-    };
-    const payload: payloadType = {};
+    setLoading(true);
 
-    inputFields.forEach((inputField) => {
-      payload[inputField.payloadKey] = inputField.ref.current;
-    });
+    setTimeout(async () => {
+      type payloadType = {
+        [key: string]: string | null;
+      };
+      const payload: payloadType = {};
 
-    console.log(payload);
+      inputFields.forEach((inputField) => {
+        payload[inputField.payloadKey] = inputField.ref.current;
+      });
 
-    try {
-      const response = await axios.post(apiBaseUrl + requestUrl, payload);
-      console.log(response.data);
-      localStorage.setItem("token", response.data.token);
+      console.log(payload);
+      try {
+        const response = await axios.post(apiBaseUrl + requestUrl, payload);
+        console.log(response.data);
+        localStorage.setItem("token", response.data.token);
 
-      navigation("/");
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        console.log(err);
-        setError({
-          errorMessage: err?.response?.data.message,
-          errorStatus: true,
-        });
+        navigation("/");
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          console.log(err);
+          setError({
+            errorMessage: err?.response?.data.message,
+            errorStatus: true,
+          });
+        }
       }
-    }
+      setLoading(false);
+    }, 500);
   }
 
   return (
@@ -79,7 +85,7 @@ export default function Authentication({
         <h1 className="text-center text-4xl text-white font-bold px-10 h-1/4 dark:text-black">
           {pageHeader}
         </h1>
-        <div className="w-full h-3/4 bg-primary rounded-md flex flex-col justify-start items-center gap-5 px-5 pt-10 dark:bg-fourth">
+        <div className="w-full h-3/4 bg-primary rounded-md flex flex-col justify-start items-center gap-5 px-5 lg:px-10 pt-10 dark:bg-fourth">
           {inputFields.map((inputField, index) => {
             return (
               <div
@@ -102,10 +108,13 @@ export default function Authentication({
             );
           })}
           <button
-            className="w-3/4 h-10 bg-third text-white font-bold text-lg rounded-md mt-2.5 hover:bg-opacity-75 transition-colors"
+            disabled={loading}
+            className={`w-3/4 h-10 ${
+              loading ? "bg-secondary cursor-wait" : "bg-third"
+            } text-white font-bold text-lg rounded-md mt-2.5 hover:bg-opacity-75 transition-colors`}
             type="submit"
           >
-            {buttonName}
+            {loading ? <Spinner /> : buttonName}
           </button>
           {error?.errorStatus && (
             <p className="text-red-500">{error?.errorMessage}</p>

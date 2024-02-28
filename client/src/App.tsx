@@ -1,12 +1,14 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import LoginPage from "./pages/authentication/LoginPage";
-import RegisterPage from "./pages/authentication/RegisterPage";
-import HomePage from "./pages/homepage/HomePage";
+import LoginPage from "./pages/auth-page/LoginPage";
+import RegisterPage from "./pages/auth-page/RegisterPage";
+import HomePage from "./pages/home-page/HomePage";
 import ProtectedRoute from "./ProtectedRoute";
 import { AuthContext } from "./context/AuthContext";
 import { useAuthentication } from "./hooks/AuthHook";
 import { ThemeContext } from "./context/ThemeContext";
 import { useState } from "react";
+import Navigationbar from "./components/Navigationbar";
+import BlogPage from "./pages/blog-page/BlogPage";
 
 export default function App() {
   /* TODO: DARK and LIGHT MODE:
@@ -17,26 +19,52 @@ export default function App() {
     localStorage.getItem("theme") === "dark" ? "dark" : "light"
   );
 
+  const routing = {
+    routes: [
+      {
+        name: "Home",
+        path: "/",
+        element: <ProtectedRoute children={<HomePage />} />,
+      },
+      {
+        name: "Blogs",
+        path: "/blogs",
+        element: <ProtectedRoute children={<BlogPage />} />,
+      },
+      {
+        isVisibleInNavigationbar: false,
+        path: "/login",
+        element: !isAuthenticated ? <LoginPage /> : <Navigate to="/" />,
+      },
+      {
+        isVisibleInNavigationbar: false,
+        path: "/register",
+        element: !isAuthenticated ? <RegisterPage /> : <Navigate to="/" />,
+      },
+    ],
+    disabledNavigationbar: ["login", "register"],
+  };
+
   return (
-    <div className={`${theme}`}>
+    <div
+      className={`${theme} bg-fourth dark:bg-secondary transition-colors duration-700`}
+    >
       <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <BrowserRouter>
+            <Navigationbar
+              disabledNavigationbar={routing.disabledNavigationbar}
+              routesPath={routing.routes.map((route) => {
+                return {
+                  name: route.name,
+                  path: route.path,
+                };
+              })}
+            />
             <Routes>
-              <Route
-                path={"/"}
-                element={<ProtectedRoute children={<HomePage />} />}
-              />
-              <Route
-                path={"/login"}
-                element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />}
-              />
-              <Route
-                path={"/register"}
-                element={
-                  !isAuthenticated ? <RegisterPage /> : <Navigate to="/" />
-                }
-              />
+              {routing.routes.map((route, index) => (
+                <Route key={index} {...route} />
+              ))}
             </Routes>
           </BrowserRouter>
         </ThemeContext.Provider>
