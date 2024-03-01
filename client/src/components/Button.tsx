@@ -5,10 +5,17 @@ type ButtonProps = {
   buttonName: string | ReactNode;
   to?: string;
   styled?: boolean;
+  className?: string;
   onClick?: () => void;
 };
 
-export function Button({ buttonName, to, styled, onClick }: ButtonProps) {
+export function Button({
+  buttonName,
+  to,
+  styled,
+  onClick,
+  className,
+}: ButtonProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,7 +35,7 @@ export function Button({ buttonName, to, styled, onClick }: ButtonProps) {
 
   return (
     <button
-      className={styleButton()}
+      className={className ? className : styleButton()}
       onClick={to ? () => navigate(to) : onClick}
     >
       {buttonName}
