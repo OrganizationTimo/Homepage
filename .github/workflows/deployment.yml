@@ -86,7 +86,7 @@ jobs:
             sudo docker stop $(sudo docker ps -q)
             sudo docker rmi $(sudo docker images -q) -f
             sudo docker system prune --all --force
-            sudo docker network create mynetwork
+            sudo docker network create network
             sudo docker pull timowenz/homepage:server
             sudo docker pull timowenz/homepage:database
             sudo docker run --name client -d -p 5173:5173 timowenz/homepage:client
