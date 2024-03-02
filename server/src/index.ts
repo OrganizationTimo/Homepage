@@ -4,7 +4,8 @@ import router from "./routes/users.route";
 import { log } from "./middlewares/logging.middleware";
 import cors from "cors";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
+import { client } from "./configs/db.config";
+import { User } from "./models/user.model";
 
 const app = express();
 dotenv.config();
@@ -19,13 +20,14 @@ app.use(json());
 app.use(log);
 app.use(router);
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3000, async () => {
   try {
-    console.log("MONGO_URI:", process.env.MONGO_URI);
-    if (process.env.MONGO_URI)
-      mongoose.connect(process.env.MONGO_URI, { dbName: "database" });
-    console.log("Successfully connected to MongoDB.");
     console.log(`Server listening on port: ${process.env.PORT}.`);
+
+    await client.connect();
+    console.log("Successfully connected to PostgreSQL.");
+
+    new User();
   } catch (err) {
     console.log(err);
   }
