@@ -1,9 +1,9 @@
 import { Client } from "pg";
 
 export const client = new Client({
-  host: process.env.HOST || "localhost",
-  port: process.env.PORT ? parseInt(process.env.PORT) : 5432,
-  database: process.env.NAME || "postgres",
-  user: process.env.USER || "postgres",
-  password: process.env.PASSWORD || "postgres",
+  host: process.env.DB_HOST || "localhost",
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
+  database: process.env.DB_DATABASE || "postgres",
+  user: process.env.DB_USER || "postgres",
+  password: process.env.DB_PASSWORD || "postgres",
 });
