@@ -14,9 +14,7 @@ services:
     command: npm start
     restart: on-failure
   database:
-    build: ./docker/mongodb
+    build: ./database
     ports:
-      - "27017:27017"
-    volumes:
-      - ./docker/mongodb/volume:/data/db
+      - "5432:5432"
     restart: on-failure
