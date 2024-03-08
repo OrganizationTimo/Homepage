@@ -2,7 +2,7 @@ import axios from "axios";
 import { ReactNode, useContext, useEffect } from "react";
 import { apiBaseUrl } from "./utils/baseUrl";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "./contexts/AuthContext";
 
 type ProtectedRouteProps = {
   children: ReactNode;

@@ -1,20 +1,33 @@
 version: "3"
 services:
   backend:
+    networks:
+      - backend
+      - frontend
     build: ./server
     ports:
       - "3000:3000"
     command: npm run dev
     restart: on-failure
+    environment:
+      - DB_HOST=database
 
   client:
+    networks:
+      - frontend
     build: ./client
     ports:
       - "5173:5173"
     command: npm start
     restart: on-failure
   database:
+    networks:
+      - backend
     build: ./database
     ports:
       - "5432:5432"
     restart: on-failure
+
+networks:
+  frontend:
+  backend:

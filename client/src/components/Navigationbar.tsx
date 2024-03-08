@@ -2,9 +2,9 @@ import { Button } from "./Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "../contexts/ThemeContext";
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 type NavigationbarProps = {
   disabledNavigationbar: string[];
